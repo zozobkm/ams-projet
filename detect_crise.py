@@ -37,7 +37,7 @@ def detecter_crise():
     SEUIL_RAM = 90.0  # seuil d'alerte pour la RAM
 
     # Connexion à la base de données
-    conn = sqlite3.connect('/home/uapv2202351/data/systeme_monitor.db')
+    conn = sqlite3.connect('/home/uapv2202351/data/monitoring.db')
     cursor = conn.cursor()
     
     cursor.execute("""
