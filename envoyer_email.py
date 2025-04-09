@@ -1,13 +1,16 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import getpass  # Pour demander le mot de passe de manière sécurisée
 
 # Configuration
 SMTP_SERVER = "partage.univ-avignon.fr"
 SMTP_PORT = 465
 EMAIL_FROM = "ton-adresse@univ-avignon.fr"  # Remplace par ton adresse mail
 EMAIL_TO = "destinataire@exemple.com"  # L'adresse du destinataire (par exemple, admin)
-EMAIL_PASSWORD = "ton-mot-de-passe-ici"  # Ton mot de passe
+
+# Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
+EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 
 # Fonction pour envoyer l'email
 def envoyer_email(contenu, destinataire):
