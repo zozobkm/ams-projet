@@ -14,6 +14,8 @@ EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 
 # Fonction pour envoyer l'email
 def envoyer_email(contenu, destinataire):
+    print("Début de l'envoi de l'email.")
+    
     # Créer l'objet du message
     msg = MIMEMultipart()
     msg['From'] = EMAIL_FROM
@@ -25,9 +27,15 @@ def envoyer_email(contenu, destinataire):
 
     try:
         # Connexion au serveur SMTP et envoi du mail
+        print("Connexion au serveur SMTP...")
         with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            print("Connexion réussie. Tentative de login...")
             server.login(EMAIL_FROM, EMAIL_PASSWORD)  # Connexion avec ton email et mot de passe
+            print("Login réussi. Envoi de l'email...")
             server.sendmail(EMAIL_FROM, destinataire, msg.as_string())  # Envoi du mail
-            print("Mail envoyé avec succès")
+            print("Mail envoyé avec succès.")
     except Exception as e:
         print(f"Erreur lors de l'envoi du mail: {e}")
+
+# Test : Envoi d'un mail de test
+envoyer_email("Ceci est un test d'alerte AMS", EMAIL_TO)
