@@ -23,7 +23,7 @@ def init_alerts_table():
 	conn.close()
 
 def  alert_exists(alert_text):
-	conn = sqlitz3.connect(DB_PATH)
+	conn = sqlite3.connect(DB_PATH)
 	cursor = conn.cursor()
 	cursor.execute('SELECT COUNT (*) FROM alerts WHERE alert_text=?',(alert_text,))
 	result = cursor.fetchone()[0]
