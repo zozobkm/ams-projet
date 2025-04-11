@@ -47,7 +47,7 @@ def detecter_crise():
             if cpu >= seuil_cpu or ram >= seuil_ram:
                 print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
                 # Envoi de l'email d'alerte
-               print(f"CPU: {cpu}, RAM: {ram}, seuil_cpu: {seuil_cpu}, seuil_ram: {seuil_ram}")
+                print(f"CPU: {cpu}, RAM: {ram}, seuil_cpu: {seuil_cpu}, seuil_ram: {seuil_ram}")
                 contenu_email = f"Alerte: Situation de crise détectée.\nCPU: {cpu}%\nRAM: {ram}%"
                 envoyer_email(contenu_email, EMAIL_TO)
             else:
