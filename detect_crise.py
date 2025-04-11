@@ -42,7 +42,7 @@ def detecter_crise():
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
 
             # Détection d'une situation de crise (par exemple, si CPU > 0 ou RAM > 0)
-            seuil_cpu = 0  # Teste avec un seuil de 0
+            seuil_cpu = 50
             seuil_ram = 0
             if cpu > seuil_cpu or ram > seuil_ram:
                 print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
