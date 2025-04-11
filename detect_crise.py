@@ -3,6 +3,7 @@ from db import init_alerts_table, insert_alert, delete_old_alerts
 from datetime import datetime
 from envoyer_email import envoyer_email
 import psutil
+import getpass  # Pour demander le mot de passe de manière sécurisée
 import sqlite3  # Assurez-vous d'importer sqlite3
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
