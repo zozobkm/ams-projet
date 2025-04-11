@@ -40,7 +40,7 @@ def detecter_crise():
             ram = float(ram) if ram is not None else 0
 
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
-
+            print(f"Valeurs récupérées: CPU = {cpu}, RAM = {ram}")
             # Détection d'une situation de crise (par exemple, si CPU > 0 ou RAM > 0)
             seuil_cpu = 0
             seuil_ram = 1
