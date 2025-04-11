@@ -1,6 +1,7 @@
-from db import init_db, insert_mesure, insert_alert, clean_old_mesures, get_last_measurements
-from send_email import envoyer_email
-
+from db import init_alerts_table , insert_alert, delete_old_alerts
+from datetime import datetime
+from envoyer_email import envoyer_email
+import psutil
 # Initialisation de la base de données
 init_db()
 
