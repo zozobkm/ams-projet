@@ -43,7 +43,7 @@ def detecter_crise():
 
             # Détection d'une situation de crise (par exemple, si CPU > 0 ou RAM > 0)
             seuil_cpu = 50
-            seuil_ram = 0
+            seuil_ram = 50
             if cpu > seuil_cpu or ram > seuil_ram:
                 print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
                 # Envoi de l'email d'alerte
