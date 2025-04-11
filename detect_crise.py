@@ -4,6 +4,8 @@ from datetime import datetime
 from envoyer_email import envoyer_email
 import psutil
 import sqlite3  # Assurez-vous d'importer sqlite3
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 # Initialisation de la base de données
 init_db()
@@ -55,4 +57,22 @@ def detecter_crise():
     except sqlite3.Error as e:
         print(f"Erreur de connexion à la base de données: {e}")
 
+# Fonction pour envoyer l'email
+def envoyer_email(contenu, destinataire):
+    msg = MIMEMultipart()
+    msg['From'] = EMAIL_FROM
+    msg['To'] = destinataire
+    msg['Subject'] = "Alerte AMS - Situation de crise"
 
+    msg.attach(MIMEText(contenu, 'plain'))
+
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            server.login(EMAIL_FROM, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_FROM, destinataire, msg.as_string())
+            print("Mail envoyé avec succès")
+    except Exception as e:
+        print(f"Erreur lors de l'envoi du mail: {e}")
+
+if __name__ == "__main__":
+    detecter_crise()
