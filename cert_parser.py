@@ -1,6 +1,6 @@
 import re
 import requests
-from db import init_alerts_table, insert_alert, delete_old_alerts
+from db import init_alerts_table, insert_alert, delete_old_alerts  # Assurez-vous que 'db' est correctement importé
 from datetime import datetime
 
 def get_lastcert_alert():
@@ -17,14 +17,14 @@ def get_lastcert_alert():
 
 def store_alert():
     # Initialisation de la table et suppression des anciennes alertes
-    init_alerts_table()
-    delete_old_alerts()
+    init_alerts_table()  # Assurez-vous que cette fonction existe dans db.py
+    delete_old_alerts()  # Assurez-vous que cette fonction existe dans db.py
 
     # Récupérer la dernière alerte
     alert = get_lastcert_alert()
 
     # Insertion de l'alerte dans la base de données
-    insert_alert(alert)
+    insert_alert(alert)  # Assurez-vous que cette fonction existe dans db.py
 
 if __name__ == "__main__":
     store_alert()
