@@ -41,8 +41,8 @@ def detecter_crise():
 
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
 
-            # Détection d'une situation de crise (par exemple, si CPU > 80% ou RAM > 80%)
-            seuil_cpu = 0
+            # Détection d'une situation de crise (par exemple, si CPU > 0 ou RAM > 0)
+            seuil_cpu = 0  # Teste avec un seuil de 0
             seuil_ram = 0
             if cpu > seuil_cpu or ram > seuil_ram:
                 print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
@@ -61,6 +61,7 @@ def detecter_crise():
 
 # Fonction pour envoyer l'email
 def envoyer_email(contenu, destinataire):
+    print(f"Envoi du mail à {destinataire}...")  # Affiche à qui l'email est envoyé
     msg = MIMEMultipart()
     msg['From'] = EMAIL_FROM
     msg['To'] = destinataire
@@ -69,7 +70,9 @@ def envoyer_email(contenu, destinataire):
     msg.attach(MIMEText(contenu, 'plain'))
 
     try:
+        print("Connexion au serveur SMTP...")
         with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            print("Connexion réussie. Connexion au serveur SMTP avec les identifiants...")
             server.login(EMAIL_FROM, EMAIL_PASSWORD)
             server.sendmail(EMAIL_FROM, destinataire, msg.as_string())
             print("Mail envoyé avec succès")
