@@ -1,0 +1,5 @@
+Alerte AMS - Situation de crise détectée!
+
+Détails:
+CPU: {cpu}%
+RAM: {ram}%
