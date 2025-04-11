@@ -58,6 +58,16 @@ def detecter_crise():
         print(f"Erreur de connexion à la base de données: {e}")
 
 # Fonction pour envoyer l'email
+
+
+# Configuration
+SMTP_SERVER = "partage.univ-avignon.fr"
+SMTP_PORT = 465
+EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
+EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
+
+# Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
+EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 def envoyer_email(contenu, destinataire):
     msg = MIMEMultipart()
     msg['From'] = EMAIL_FROM
