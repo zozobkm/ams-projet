@@ -20,12 +20,21 @@ def detecter_crise():
         conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
         cursor = conn.cursor()
 
-        # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
-        cursor.execute("SELECT cpu_usage, ram_usage FROM mesures ORDER BY timestamp DESC LIMIT 1;")
-        result = cursor.fetchone()
+        # Récupérer les dernières valeurs du CPU et de la RAM
+        cursor.execute("""
+        SELECT sonde, valeur
+        FROM mesures
+        WHERE sonde IN ('cpu', 'ram')
+        ORDER BY date DESC
+        LIMIT 2;
+        """)
+        result = cursor.fetchall()
 
         if result:
-            cpu, ram = result
+            # Les deux premières lignes devraient être CPU et RAM
+            cpu = next((value for sonde, value in result if sonde == 'cpu'), None)
+            ram = next((value for sonde, value in result if sonde == 'ram'), None)
+
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
 
             # Détection d'une situation de crise (par exemple, si CPU > 80% ou RAM > 80%)
