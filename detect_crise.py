@@ -7,7 +7,7 @@ import getpass  # Pour demander le mot de passe de manière sécurisée
 # Configuration
 SMTP_SERVER = "partage.univ-avignon.fr"
 SMTP_PORT = 465
-EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr" # Remplace par ton adresse mail
+EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
 EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
 
 # Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
@@ -34,6 +34,10 @@ def detecter_crise():
             # Les deux premières lignes devraient être CPU et RAM
             cpu = next((value for sonde, value in result if sonde == 'cpu'), None)
             ram = next((value for sonde, value in result if sonde == 'ram'), None)
+
+            # Convertir les valeurs en float pour éviter l'erreur de type
+            cpu = float(cpu) if cpu is not None else 0
+            ram = float(ram) if ram is not None else 0
 
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
 
