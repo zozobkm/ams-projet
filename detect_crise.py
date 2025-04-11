@@ -17,7 +17,7 @@ EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 def detecter_crise():
     try:
         # Connexion à la base de données avec le bon chemin
-        conn = sqlite3.connect('/home/uapv2305487/data/systeme_monitor.db')
+        conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
         cursor = conn.cursor()
 
         # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
