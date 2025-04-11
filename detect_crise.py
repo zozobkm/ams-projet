@@ -1,3 +1,4 @@
+from db import init_db , insert_mesure, clean_old_mesures
 from db import init_alerts_table , insert_alert, delete_old_alerts
 from datetime import datetime
 from envoyer_email import envoyer_email
