@@ -17,7 +17,7 @@ EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 
 # Fonction pour charger le template d'email avec les valeurs CPU et RAM
 def load_email_template(cpu, ram):
-    with open("email_template.txt", "r") as f:  # Assurez-vous que ce fichier est dans le même répertoire
+    with open("template.txt", "r") as f:  # Assurez-vous que ce fichier est dans le même répertoire
         template = f.read()
     return template.format(cpu=cpu, ram=ram)
 
