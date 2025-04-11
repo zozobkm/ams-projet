@@ -71,15 +71,13 @@ def init_db():
 	conn.commit()
 	conn.close()
 def insert_mesure(sonde, valeur):
-	conn = sqlite3.connect(DB_PATH)
-	cursor = conn.cursor()
-	date = datetime.now().strftime('%d-%m-%Y %H:%M:%S ' )
-	cursor.execute(
-		'INSERT INTO mesures (sonde, valeur, date) VALUES (? , ?, ?)',
-		(sonde, valeur, date)
-	)
-	conn.commit()
-	conn.close()
+    date = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO mesures (sonde, valeur, date) VALUES (?, ?, ?)',
+            (sonde, valeur, date)
+        )
 
 def clean_old_mesures(max=60):
 	conn = sqlite3.connect(DB_PATH)
