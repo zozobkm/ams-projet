@@ -7,9 +7,13 @@ import psutil
 init_db()
 
 def detecter_crise():
-    """Détecte une situation de crise basée sur les mesures du CPU et de la RAM."""
-    result = get_last_measurements()
+  # Connexion à la base de données avec le bon chemin
+        conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
+        cursor = conn.cursor()
 
+        # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
+        cursor.execute("SELECT cpu, ram FROM mesures ORDER BY timestamp DESC LIMIT 1;")
+        result = cursor.fetchone()
     if result:
         # Extraction des valeurs CPU et RAM
         cpu = next((float(value) for sonde, value in result if sonde == 'cpu'), None)
