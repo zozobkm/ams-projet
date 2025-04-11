@@ -1,27 +1,34 @@
-from db import init_db, insert_mesure, clean_old_mesures
-from db import init_alerts_table, insert_alert, delete_old_alerts
-from datetime import datetime
+import sqlite3
 import smtplib
-import getpass  # Pour demander le mot de passe de manière sécurisée
-import sqlite3  # Assurez-vous d'importer sqlite3
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import getpass  # Pour demander le mot de passe de manière sécurisée
+from datetime import datetime
+from envoyer_email import envoyer_email  # Assurez-vous que cette fonction est dans un fichier séparé ou importé correctement
 
-# Initialisation de la base de données
-init_db()
 # Configuration
 SMTP_SERVER = "partage.univ-avignon.fr"
 SMTP_PORT = 465
 EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
 EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
 
+# Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
+EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
+
+# Fonction pour charger le template d'email avec les valeurs CPU et RAM
+def load_email_template(cpu, ram):
+    with open("email_template.txt", "r") as f:  # Assurez-vous que ce fichier est dans le même répertoire
+        template = f.read()
+    return template.format(cpu=cpu, ram=ram)
+
+# Connexion à la base de données
 def detecter_crise():
     try:
         # Connexion à la base de données avec le bon chemin
         conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
         cursor = conn.cursor()
 
-        # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
+        # Récupérer les dernières valeurs du CPU et de la RAM
         cursor.execute("""
         SELECT sonde, valeur
         FROM mesures
@@ -42,32 +49,26 @@ def detecter_crise():
 
             print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
 
-            # Seuils de crise
+            # Détection d'une situation de crise (par exemple, si CPU > 80% ou RAM > 80%)
             seuil_cpu = 80
             seuil_ram = 80
-
             if cpu >= seuil_cpu or ram >= seuil_ram:
                 print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
+                # Charger le template d'email avec les valeurs CPU et RAM
+                email_content = load_email_template(cpu, ram)
                 # Envoi de l'email d'alerte
-                contenu_email = f"Alerte: Situation de crise détectée.\nCPU: {cpu}%\nRAM: {ram}%"
-                insert_alert(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
-                envoyer_email(contenu_email, "zohra.belkacem-matallah@alumni.univ-avignon.fr")
+                envoyer_email(email_content, EMAIL_TO)
             else:
                 print("Aucune crise détectée.")
         else:
             print("Aucune donnée disponible pour la détection de crise.")
-        
+
         conn.close()
 
     except sqlite3.Error as e:
         print(f"Erreur de connexion à la base de données: {e}")
 
 # Fonction pour envoyer l'email
-
-
-
-# Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
-EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 def envoyer_email(contenu, destinataire):
     msg = MIMEMultipart()
     msg['From'] = EMAIL_FROM
