@@ -15,12 +15,8 @@ def detecter_crise():
         cursor.execute("SELECT cpu, ram FROM mesures ORDER BY timestamp DESC LIMIT 1;")
         result = cursor.fetchone()
     if result:
-        # Extraction des valeurs CPU et RAM
-        cpu = next((float(value) for sonde, value in result if sonde == 'cpu'), None)
-        ram = next((float(value) for sonde, value in result if sonde == 'ram'), None)
-
+        cpu, ram = result
         print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
-
         # Seuils de crise
         seuil_cpu = 80
         seuil_ram = 80
