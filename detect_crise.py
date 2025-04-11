@@ -1,8 +1,7 @@
 from db import init_db, insert_mesure, clean_old_mesures
 from db import init_alerts_table, insert_alert, delete_old_alerts
 from datetime import datetime
-from envoyer_email import envoyer_email
-import psutil
+import smtplib
 import getpass  # Pour demander le mot de passe de manière sécurisée
 import sqlite3  # Assurez-vous d'importer sqlite3
 from email.mime.text import MIMEText
@@ -10,6 +9,11 @@ from email.mime.multipart import MIMEMultipart
 
 # Initialisation de la base de données
 init_db()
+# Configuration
+SMTP_SERVER = "partage.univ-avignon.fr"
+SMTP_PORT = 465
+EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
+EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
 
 def detecter_crise():
     try:
@@ -61,11 +65,6 @@ def detecter_crise():
 # Fonction pour envoyer l'email
 
 
-# Configuration
-SMTP_SERVER = "partage.univ-avignon.fr"
-SMTP_PORT = 465
-EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
-EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
 
 # Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
 EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
