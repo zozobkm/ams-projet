@@ -11,8 +11,8 @@ SMTP_PORT = 465
 EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"
 EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"
 
-# Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
-EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
+
+EMAIL_PASSWORD ="Belkacemzohra42*"
 
 # Seuils de crise
 SEUIL_CPU = 90.0
