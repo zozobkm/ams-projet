@@ -9,32 +9,68 @@ import sqlite3  # Assurez-vous d'importer sqlite3
 init_db()
 
 def detecter_crise():
-    # Connexion à la base de données avec le bon chemin
-    conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
-    cursor = conn.cursor()
+    try:
+        # Connexion à la base de données avec le bon chemin
+        conn = sqlite3.connect('/home/uapv2305487/projet/monitoring.db')
+        cursor = conn.cursor()
 
-    # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
-    cursor.execute("SELECT cpu, ram FROM mesures ORDER BY timestamp DESC LIMIT 1;")
-    result = cursor.fetchone()
+        # Interroger la table "mesures" pour récupérer les dernières valeurs de CPU et RAM
+        cursor.execute("""
+        SELECT sonde, valeur
+        FROM mesures
+        WHERE sonde IN ('cpu', 'ram')
+        ORDER BY date DESC
+        LIMIT 2;
+        """)
+        result = cursor.fetchall()
 
-    if result:
-        cpu, ram = result
-        print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
+        if result:
+            # Les deux premières lignes devraient être CPU et RAM
+            cpu = next((value for sonde, value in result if sonde == 'cpu'), None)
+            ram = next((value for sonde, value in result if sonde == 'ram'), None)
 
-        # Seuils de crise
-        seuil_cpu = 80
-        seuil_ram = 80
+            # Convertir les valeurs en float pour éviter l'erreur de type
+            cpu = float(cpu) if cpu is not None else 0
+            ram = float(ram) if ram is not None else 0
 
-        if cpu >= seuil_cpu or ram >= seuil_ram:
-            print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
-            # Envoi de l'email d'alerte
-            contenu_email = f"Alerte: Situation de crise détectée.\nCPU: {cpu}%\nRAM: {ram}%"
-            insert_alert(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
-            envoyer_email(contenu_email, "zohra.belkacem-matallah@alumni.univ-avignon.fr")
+            print(f"Dernière utilisation CPU: {cpu}% et RAM: {ram}%")
+
+            # Seuils de crise
+            seuil_cpu = 80
+            seuil_ram = 80
+
+            if cpu >= seuil_cpu or ram >= seuil_ram:
+                print(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
+                # Envoi de l'email d'alerte
+                contenu_email = f"Alerte: Situation de crise détectée.\nCPU: {cpu}%\nRAM: {ram}%"
+                insert_alert(f"CRISE DETECTEE ! CPU: {cpu}% | RAM: {ram}%")
+                envoyer_email(contenu_email, "zohra.belkacem-matallah@alumni.univ-avignon.fr")
+            else:
+                print("Aucune crise détectée.")
         else:
-            print("Aucune crise détectée.")
-    else:
-        print("Aucune donnée disponible pour la détection de crise.")
+            print("Aucune donnée disponible pour la détection de crise.")
+        
+        conn.close()
+
+    except sqlite3.Error as e:
+        print(f"Erreur de connexion à la base de données: {e}")
+
+# Fonction pour envoyer l'email
+def envoyer_email(contenu, destinataire):
+    msg = MIMEMultipart()
+    msg['From'] = EMAIL_FROM
+    msg['To'] = destinataire
+    msg['Subject'] = "Alerte AMS - Situation de crise"
+
+    msg.attach(MIMEText(contenu, 'plain'))
+
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            server.login(EMAIL_FROM, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_FROM, destinataire, msg.as_string())
+            print("Mail envoyé avec succès")
+    except Exception as e:
+        print(f"Erreur lors de l'envoi du mail: {e}")
 
 if __name__ == "__main__":
     detecter_crise()
