@@ -9,11 +9,11 @@ from envoyer_email import envoyer_email  # Assurez-vous que cette fonction est d
 # Configuration
 SMTP_SERVER = "partage.univ-avignon.fr"
 SMTP_PORT = 465
-EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # Remplace par ton adresse mail
-EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  # L'adresse du destinataire (par exemple, admin)
+EMAIL_FROM = "nazih.bouch00@gmail.com"  # Remplace par ton adresse mail
+EMAIL_TO = "nazih.bouch00@gmail.com"  # L'adresse du destinataire (par exemple, admin)
 
 # Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
-EMAIL_PASSWORD = Belkacemzohra42*
+EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
 
 # Fonction pour charger le template d'email avec les valeurs CPU et RAM
 def load_email_template(cpu, ram):
