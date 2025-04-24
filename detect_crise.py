@@ -25,7 +25,7 @@ def load_email_template(cpu, ram):
 def detecter_crise():
     try:
         # Connexion à la base de données avec le bon chemin
-        conn = sqlite3.connect('/home/uapv2202351/ams-projet/systeme_monitor.db')
+        conn = sqlite3.connect('/home/uapv2202351/ams-projet/monitoring.db')
         cursor = conn.cursor()
 
         # Récupérer les dernières valeurs du CPU et de la RAM
