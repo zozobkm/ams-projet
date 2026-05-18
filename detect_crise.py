@@ -9,8 +9,8 @@ from envoyer_email import envoyer_email  # Assurez-vous que cette fonction est d
 # Configuration
 SMTP_SERVER = "partage.univ-avignon.fr"
 SMTP_PORT = 465
-EMAIL_FROM = "nazih.bouchaat-redjimi@alumni.univ-avignon.fr" 
-EMAIL_TO = "nazih.bouchaat-redjimi@alumni.univ-avignon.fr" 
+EMAIL_FROM = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  
+EMAIL_TO = "zohra.belkacem-matallah@alumni.univ-avignon.fr"  
 
 # Demander le mot de passe dans la console (sécurisé, ne s'affiche pas)
 EMAIL_PASSWORD = getpass.getpass(prompt="Entrez votre mot de passe SMTP : ")
